@@ -8,9 +8,11 @@ class ToDoTask extends React.Component {
     super(props);
 
     this.state = {
+      _id: props.task_object._id,
       task_name: props.task_object.task_name,
       done: props.task_object.done,
-      prompt: ''
+      prompt: props.task_object.prompt,
+      show_prompt: false
     };
 
     this.onTaskClick = this.onTaskClick.bind(this);
@@ -19,20 +21,32 @@ class ToDoTask extends React.Component {
   }
 
   onTaskClick() {
-    this.setState({
-      done: !this.state.done
+    fetch(`/tasks/${this.state._id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        done: this.state.done
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      this.setState({
+        done: !this.state.done
+      })
     })
   }
 
   onTaskFocus() {
     this.setState({
-      prompt: 'Клик для изменения состояния'
+      show_prompt: true
     })
   }
 
   onTaskFocusOut() {
     this.setState({
-      prompt: ''
+      show_prompt: false
     })
   }
 
@@ -51,7 +65,7 @@ class ToDoTask extends React.Component {
 
       <div className="col-sm-12 col-lg-6">{this.state.task_name}</div>
       <div className="col-sm-12 col-lg-1"><span>{icon}</span></div>
-      <div className="col-sm-12 col-lg-5"><span className="badge bg-info">{this.state.prompt}</span></div>
+      <div className="col-sm-12 col-lg-5">{this.state.show_prompt && <span className="badge bg-info">{this.state.prompt}</span>}</div>
 
     </div>
     );

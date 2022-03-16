@@ -1,5 +1,6 @@
 import React from 'react';
 import ToDoTask from './ToDoTask'
+import ToDoTaskAdd from './ToDoTaskAdd'
 
 class ToDoList extends React.Component {
   constructor(props) {
@@ -8,6 +9,14 @@ class ToDoList extends React.Component {
     this.state = {
       tasks: []
     };
+
+    this.addTask = this.addTask.bind(this);
+  }
+
+  addTask(task) {
+    this.setState({
+      tasks: [...this.state.tasks, task]
+    })
   }
 
   componentDidMount() {
@@ -22,10 +31,11 @@ class ToDoList extends React.Component {
     console.log(this.state.tasks);
     return (
       <div className="container">
+      <ToDoTaskAdd addTask={this.addTask} />
       {
         this.state.tasks.map(function(task) {
           return (
-            <ToDoTask key={task.id} task_object={task}/>
+            <ToDoTask key={task._id} task_object={task}/>
           )
         })
       }
