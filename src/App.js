@@ -1,13 +1,16 @@
-//import logo from './logo.svg';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ToDoList from './ToDoList';
-//import './App.css';
+import ToDoTaskAdd from './ToDoTaskAdd';
 import './bootstrap.min.css'
 
 function App() {
   return (
-    <div className="App">
-      <ToDoList/>
-    </div>
+  <Router>
+    <Routes>
+      <Route path="/" element={<ToDoList />} />
+      <Route path="/add" element={<ToDoTaskAdd />} />
+    </Routes>
+  </Router>
   );
 }
 

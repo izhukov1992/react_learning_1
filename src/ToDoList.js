@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import ToDoTask from './ToDoTask'
-import ToDoTaskAdd from './ToDoTaskAdd'
+//import ToDoTaskAdd from './ToDoTaskAdd'
 
 class ToDoList extends React.Component {
   constructor(props) {
@@ -10,14 +11,14 @@ class ToDoList extends React.Component {
       tasks: []
     };
 
-    this.addTask = this.addTask.bind(this);
+    //this.addTask = this.addTask.bind(this);
   }
 
-  addTask(task) {
+  /*addTask(task) {
     this.setState({
       tasks: [...this.state.tasks, task]
     })
-  }
+  }*/
 
   componentDidMount() {
     fetch('/tasks').then(res => res.json()).then(data => {
@@ -31,7 +32,8 @@ class ToDoList extends React.Component {
     console.log(this.state.tasks);
     return (
       <div className="container">
-      <ToDoTaskAdd addTask={this.addTask} />
+      {/* <ToDoTaskAdd addTask={this.addTask} /> */}
+      <Link to='/add'>Добавить задачу</Link>
       {
         this.state.tasks.map(function(task) {
           return (

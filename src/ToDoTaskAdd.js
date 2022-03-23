@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, useNavigate } from "react-router-dom";
 
 
 class ToDoTaskAdd extends React.Component {
@@ -13,6 +14,7 @@ class ToDoTaskAdd extends React.Component {
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.onTaskNameChange = this.onTaskNameChange.bind(this);
     this.onPromptChange = this.onPromptChange.bind(this);
+    this.backToList = this.backToList.bind(this);
   }
 
   onTaskNameChange(e) {
@@ -26,11 +28,13 @@ class ToDoTaskAdd extends React.Component {
       prompt: e.target.value
     });
   }
-  
+
+  backToList() {
+    this.props.history('/');
+  }
 
   onFormSubmit(e) {
     e.preventDefault();
-
     fetch('/tasks/add', {
       method: 'POST',
       headers: {
@@ -44,7 +48,8 @@ class ToDoTaskAdd extends React.Component {
     .then(res => res.json())
     .then(data => {
       console.log(data);
-      this.props.addTask(data);
+      //this.props.addTask(data);
+      this.backToList();
     })
 
     console.log(this.state.task_name + ' : ' + this.state.prompt);
@@ -52,21 +57,30 @@ class ToDoTaskAdd extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.onFormSubmit}>
-        <input name="task"
-               type="text"
-               placeholder="Что нужно сделать"
-               value={this.state.task_name}
-               onChange={this.onTaskNameChange} />
-        <input name="prompt"
-               type="text"
-               placeholder="Подсказка"
-               value={this.state.prompt}
-               onChange={this.onPromptChange} />
-        <button>Добавить задачу</button>
-      </form>
+      <div>
+        <form onSubmit={this.onFormSubmit}>
+          <input name="task"
+                 type="text"
+                 placeholder="Что нужно сделать"
+                 value={this.state.task_name}
+                 onChange={this.onTaskNameChange} />
+          <input name="prompt"
+                 type="text"
+                 placeholder="Подсказка"
+                 value={this.state.prompt}
+                 onChange={this.onPromptChange} />
+          <button>Добавить задачу</button>
+        </form>
+        <Link to='/'>Вернуться к списку</Link>
+      </div>
     );
   }
 }
 
-export default ToDoTaskAdd;
+function ToDoTaskAddWrapper(props) {
+  return (
+    <ToDoTaskAdd {...props} history={useNavigate()} />
+  )
+}
+
+export default ToDoTaskAddWrapper;
