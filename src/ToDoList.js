@@ -30,18 +30,39 @@ class ToDoList extends React.Component {
 
   render() {
     console.log(this.state.tasks);
+
+    let done = this.state.tasks.filter(function(task) {
+      return task.done === true;
+    });
+
+    let not_done = this.state.tasks.filter(function(task) {
+      return task.done === false;
+    });
+
     return (
-      <div className="container">
-      {/* <ToDoTaskAdd addTask={this.addTask} /> */}
-      <Link to='/add'>Добавить задачу</Link>
-      {
-        this.state.tasks.map(function(task) {
-          return (
-            <ToDoTask key={task._id} task_object={task}/>
-          )
-        })
-      }
+    
+    
+      <div className="task-list">
+        <Link to='/add'>Добавить задачу</Link>
+        <h1>Tasks</h1>
+        <div className="priority low"><span>Done</span></div>
+        {
+          not_done.map(function(task) {
+            return (
+              <ToDoTask key={task._id} task_object={task} type={'low'} />
+            )
+          })
+        }
+        <div className="priority high"><span>Not done</span></div>
+        {
+          done.map(function(task) {
+            return (
+              <ToDoTask key={task._id} task_object={task} type={'high'} />
+            )
+          })
+        }
       </div>
+        
     );
   }
 }

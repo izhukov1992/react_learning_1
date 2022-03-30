@@ -58,16 +58,23 @@ class ToDoTask extends React.Component {
     }
 
     return (
-    <div className="row"
-         onClick={this.onTaskClick}
-         onMouseOver={this.onTaskFocus}
-         onMouseOut={this.onTaskFocusOut}>
+    
+        <div className={`task ${this.props.type}`}
+             onClick={this.onTaskClick}
+             onMouseOver={this.onTaskFocus}
+             onMouseOut={this.onTaskFocusOut}
+        >
+          <div className="desc">
+            <div className="title">{this.state.task_name}</div>
+            <div className="prompt">{this.state.show_prompt && <span>{this.state.prompt}</span>}</div>
+          </div>
+          <div className="time">
+            <div className="date"><span>{icon}</span></div>
+          </div>
 
-      <div className="col-sm-12 col-lg-6">{this.state.task_name}</div>
-      <div className="col-sm-12 col-lg-1"><span>{icon}</span></div>
-      <div className="col-sm-12 col-lg-5">{this.state.show_prompt && <span className="badge bg-info">{this.state.prompt}</span>}</div>
-
-    </div>
+        </div>
+        
+    
     );
   }
 }
