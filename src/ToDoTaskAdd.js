@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link, useNavigate } from "react-router-dom";
+import { connect } from 'react-redux'
+
+import { addTodo } from './actions'
 
 
 class ToDoTaskAdd extends React.Component {
@@ -35,6 +38,9 @@ class ToDoTaskAdd extends React.Component {
 
   onFormSubmit(e) {
     e.preventDefault();
+
+    let dispatch = this.props.dispatch;
+
     fetch('/tasks/add', {
       method: 'POST',
       headers: {
@@ -47,9 +53,10 @@ class ToDoTaskAdd extends React.Component {
     })
     .then(res => res.json())
     .then(data => {
-      console.log(data);
-      //this.props.addTask(data);
+
+      dispatch(addTodo(data.task_name, data.prompt, data._id));
       this.backToList();
+
     })
 
     console.log(this.state.task_name + ' : ' + this.state.prompt);
@@ -83,4 +90,4 @@ function ToDoTaskAddWrapper(props) {
   )
 }
 
-export default ToDoTaskAddWrapper;
+export default connect()(ToDoTaskAddWrapper);

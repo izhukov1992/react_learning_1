@@ -1,5 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux'
 
+import { toggleTodo } from './actions'
 import './ToDoTask.css'
 
 
@@ -8,10 +10,6 @@ class ToDoTask extends React.Component {
     super(props);
 
     this.state = {
-      _id: props.task_object._id,
-      task_name: props.task_object.task_name,
-      done: props.task_object.done,
-      prompt: props.task_object.prompt,
       show_prompt: false
     };
 
@@ -21,20 +19,22 @@ class ToDoTask extends React.Component {
   }
 
   onTaskClick() {
-    fetch(`/tasks/${this.state._id}`, {
+    let dispatch = this.props.dispatch;
+
+    fetch(`/tasks/${this.props.task_object._id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        done: this.state.done
+        done: this.props.task_object.done
       })
     })
     .then(res => res.json())
     .then(data => {
-      this.setState({
-        done: !this.state.done
-      })
+
+      dispatch(toggleTodo(this.props.task_object._id));
+
     })
   }
 
@@ -53,7 +53,7 @@ class ToDoTask extends React.Component {
   render() {
     let icon = '❌';
 
-    if (this.state.done) {
+    if (this.props.task_object.done) {
         icon = '✅';
     }
 
@@ -65,8 +65,8 @@ class ToDoTask extends React.Component {
              onMouseOut={this.onTaskFocusOut}
         >
           <div className="desc">
-            <div className="title">{this.state.task_name}</div>
-            <div className="prompt">{this.state.show_prompt && <span>{this.state.prompt}</span>}</div>
+            <div className="title">{this.props.task_object.task_name}</div>
+            <div className="prompt">{this.state.show_prompt && <span>{this.props.task_object.prompt}</span>}</div>
           </div>
           <div className="time">
             <div className="date"><span>{icon}</span></div>
@@ -79,4 +79,4 @@ class ToDoTask extends React.Component {
   }
 }
 
-export default ToDoTask;
+export default connect()(ToDoTask);
