@@ -12,8 +12,12 @@ app.use(express.static('build'));
 // Mongo, Express, Angular, Nodejs
 // Mongo, Express, React, Nodejs
 
+function getMongoClient() {
+  return new MongoClient(process.env.MONGO_URI);
+}
+
 app.get('/tasks', function(req, res) {
-  const client = new MongoClient('mongodb://localhost');
+  const client = getMongoClient();
   
   async function main() {
     await client.connect();
@@ -37,7 +41,7 @@ app.post('/tasks/add', function(req, res) {
     done: false
   }
 
-  const client = new MongoClient('mongodb://localhost');
+  const client = getMongoClient();
 
   async function main(task) {
     await client.connect();
@@ -55,7 +59,7 @@ app.post('/tasks/add', function(req, res) {
 })
 
 app.post('/tasks/:id', function(req, res) {
-  const client = new MongoClient('mongodb://localhost');
+  const client = getMongoClient();
 
   async function main(id) {
     await client.connect();
