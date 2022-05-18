@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 import { toggleTodo } from './actions'
-import './ToDoTask.css'
 
 
 class ToDoTask extends React.Component {
@@ -51,28 +50,25 @@ class ToDoTask extends React.Component {
   }
 
   render() {
-    let icon = '❌';
+    let classname = "todo-item";
+    let checked = false;
 
     if (this.props.task_object.done) {
-        icon = '✅';
+      classname += " complete";
+      checked = true;
     }
 
     return (
     
-        <div className={`task ${this.props.type}`}
-             onClick={this.onTaskClick}
-             onMouseOver={this.onTaskFocus}
-             onMouseOut={this.onTaskFocusOut}
-        >
-          <div className="desc">
-            <div className="title">{this.props.task_object.task_name}</div>
-            <div className="prompt">{this.state.show_prompt && <span>{this.props.task_object.prompt}</span>}</div>
-          </div>
-          <div className="time">
-            <div className="date"><span>{icon}</span></div>
-          </div>
-
-        </div>
+                        <div className={classname}
+                             onClick={this.onTaskClick}
+                             onMouseOver={this.onTaskFocus}
+                             onMouseOut={this.onTaskFocusOut}
+                        >
+                            <div className="checker"><span className=""><input type="checkbox" checked={checked} readOnly={true} /></span></div>
+                            <span>{this.props.task_object.task_name}</span>
+                            {this.state.show_prompt && this.props.task_object.prompt !== "" && <span className="badge bg-warning text-dark"> {this.props.task_object.prompt}</span>}
+                        </div>
         
     
     );

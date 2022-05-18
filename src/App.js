@@ -4,8 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Provider, connect } from 'react-redux';
 
 import ToDoList from './ToDoList';
-import ToDoTaskAdd from './ToDoTaskAdd';
-import { addTodoAll } from './actions'
+import { addTodoAll } from './actions';
 
 import './bootstrap.min.css'
 import './App.css'
@@ -22,20 +21,25 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="container page-todo bootstrap snippets bootdeys">
-        <div className="col-sm-7 tasks">
+      <div className="container">
+        <div className="row">
+          <div className="col-md-12">
+            <div className="card card-white">
+              <div className="card-body">
 
-          <Provider store={this.props.store}>
+                <Provider store={this.props.store}>
 
-            <Router>
-              <Routes>
-                <Route path="/" element={<ToDoList />} />
-                <Route path="/add" element={<ToDoTaskAdd />} />
-              </Routes>
-            </Router>
+                  <Router>
+                    <Routes>
+                      <Route path="/" element={<ToDoList />} />
+                    </Routes>
+                  </Router>
 
-          </Provider>
+                </Provider>
 
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     )
